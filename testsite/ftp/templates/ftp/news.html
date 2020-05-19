@@ -3,6 +3,24 @@
 {% block content %}
     <div>
         <h1>News</h1>
+        <table>
+            <tr>
+                <th>Дата</th>
+                <th>Время</th>
+                <th>Изменение</th>
+            </tr>
+        {% for line in log %}
+            {% if 'Successfully' in line %}
+                {% if '.jpg' in line %}
+                    <tr>
+                        <td>{{line|slice:"9:19"}}</td>
+                        <td>{{line|slice:"19:29"}}</td>
+                        <td>{{line|slice:"45:"}}</td>
+                    </tr>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+        </table>
         <p><a href="{% url 'main' %}">Return to main</a></p>
     </div>
 {% endblock %}

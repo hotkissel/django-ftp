@@ -4,14 +4,14 @@ from datetime import datetime
 import wget
 import ftplib
 
-ftp = ftplib.FTP('localhost')
-ftp.login("pk", "testim")
-ftp.encoding = 'utf-8'
 now = datetime.now()
 today_date = now.strftime("%d %B %Y")
 
 
 def ftp_upload(localfile, remotefile, user, project, cur_date):
+    ftp = ftplib.FTP('localhost')
+    ftp.login("pk", "testim")
+    ftp.encoding = 'utf-8'
     fp = open(localfile, 'rb')
     ls = ftp.nlst()
     if project not in ls:
@@ -27,16 +27,20 @@ def ftp_upload(localfile, remotefile, user, project, cur_date):
     ftp.cwd(user)
     ftp.storbinary(f'STOR {remotefile}', fp, 1024)
     fp.close()
-    print(localfile + " uploaded to " + remotefile)
 
 
 def downloads(request):
+    ftp = ftplib.FTP('localhost')
+    ftp.login("pk", "testim")
+    ftp.encoding = 'utf-8'
     filenames = ftp.mlsd()
     return render(request, 'ftp/downloads.html', {'filenames': filenames, 'ftp': ftp})
 
 
 def news(request):
-    return render(request, 'ftp/news.html', {})
+    logs_dir = 'C:\\Program Files (x86)\\FileZilla Server\\Logs\\fzs-2020-05-19.log'
+    log = open(logs_dir, "rt")
+    return render(request, 'ftp/news.html', {'log': log})
 
 
 def js(request):
