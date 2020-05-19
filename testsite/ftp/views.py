@@ -27,6 +27,7 @@ def ftp_upload(localfile, remotefile, user, project, cur_date):
     ftp.cwd(user)
     ftp.storbinary(f'STOR {remotefile}', fp, 1024)
     fp.close()
+    ftp.close()
 
 
 def downloads(request):
