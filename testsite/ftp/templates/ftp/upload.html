@@ -1,0 +1,10 @@
+{% extends 'ftp/base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<p><a href="/upload_from_computer" class="c">Загрузка с компьютера</a></p><br>
+<p><a href="/upload_from_url" class="c">Загрузка с урла</a></p><br>
+<p><a href="{% url 'main' %}">Return to main</a></p>
+{% endblock %}

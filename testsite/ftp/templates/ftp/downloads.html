@@ -1,0 +1,52 @@
+{% extends 'ftp/base.html' %}
+
+{% block content %}
+    <div>
+        <h1>Список загрузок</h1>
+        <table>
+            <tr>
+                <th>Название</th>
+                <th>Тип</th>
+                <th>Дата изменения</th>
+                <th>Размер</th>
+            </tr>
+        {% for name, facts in filenames %}
+            {% if facts.type == "file" %}
+            <tr>
+                <td><a href="ftp://localhost/{{name}}" download>{{name}}</a></td>
+                <td>{{facts.type}}</td>
+                <td>{{facts.modify}}
+                    <script type="text/javascript" src="js/date_convert.js">
+                        let data = '{{facts.modify}}';
+                        let a = getDate(data);
+                        document.write(a)
+                    </script></td>
+                <td>{{facts.size}} байт</td>
+            </tr>
+            {% else %}
+                <tr>
+                    <td><a href="ftp://localhost/{{name}}">{{name}}</a></td>>
+                    <td>{{facts.type}}</td>
+                    <td>
+                        <script type="text/javascript">
+                            let data = '{{facts.modify}}';
+                            let myDate = new Date();
+                            myDate.setFullYear(data.slice(0, 4));
+                            myDate.setMonth((data.slice(4, 6) - 1));
+                            myDate.setDate(data.slice(6, 8));
+                            myDate.setHours(data.slice(8, 10));
+                            myDate.setMinutes(data.slice(10, 12));
+                            myDate.setSeconds(data.slice(12,14));
+                            myDate.toLocaleString()
+                            document.write(myDate);
+                        </script>
+                    </td>
+                    <td></td>
+                </tr>
+            {% endif %}
+        {% endfor %}
+        </table>
+    </div>
+
+  <p><a href="{% url 'main' %}">Return to main</a></p>
+{% endblock %}
