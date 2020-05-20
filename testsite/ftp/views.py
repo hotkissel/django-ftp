@@ -35,11 +35,29 @@ def downloads(request):
     ftp.login("pk", "testim")
     ftp.encoding = 'utf-8'
     filenames = ftp.mlsd()
-    return render(request, 'ftp/downloads.html', {'filenames': filenames, 'ftp': ftp})
+    return render(request, 'ftp/downloads.html', {'filenames': filenames})
+
+
+def EV(request):
+    ftp = ftplib.FTP('localhost')
+    ftp.login("pk", "testim")
+    ftp.encoding = 'utf-8'
+    ftp.cwd('EV')
+    filenames = ftp.mlsd()
+    return render(request, 'ftp/downloads.html', {'filenames': filenames})
+
+
+def new_dir(request):
+    ftp = ftplib.FTP('localhost')
+    ftp.login("pk", "testim")
+    ftp.encoding = 'utf-8'
+    ftp.cwd('new_dir')
+    filenames = ftp.mlsd()
+    return render(request, 'ftp/downloads.html', {'filenames': filenames})
 
 
 def news(request):
-    logs_dir = 'C:\\Program Files (x86)\\FileZilla Server\\Logs\\fzs-2020-05-19.log'
+    logs_dir = 'C:\\Program Files (x86)\\FileZilla Server\\Logs\\FileZilla Server.log'
     log = open(logs_dir, "rt")
     return render(request, 'ftp/news.html', {'log': log})
 

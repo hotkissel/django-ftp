@@ -9,5 +9,7 @@ urlpatterns = [
     path('js/date_convert.js', views.js, name='js'),
     path('upload_from_computer', views.upload_from_computer, name='upload_from_computer'),
     path('upload_from_url', views.upload_from_url, name='upload_from_url'),
-    path('upload', views.upload, name='upload')
+    path('upload', views.upload, name='upload'),
+    path('EV', views.EV, name='EV'),
+    path('new_dir', views.new_dir, name='EV'),
 ]
