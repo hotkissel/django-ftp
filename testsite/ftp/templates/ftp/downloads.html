@@ -1,6 +1,7 @@
 {% extends 'ftp/base.html' %}
 
 {% block content %}
+<div><a href="{{back_btn}}">Назад</a></div>
     <div>
         <h1>Список загрузок</h1>
         <table>
@@ -13,14 +14,14 @@
         {% for name, facts in filenames %}
             {% if facts.type == "file" %}
             <tr>
-                <td><a href="ftp://localhost/{{name}}" download>{{name}}</a></td>
+                <td><a href="ftp://localhost/{{folder}}/{{name}}" download>{{name}}</a></td>
                 <td>{{facts.type}}</td>
                 <td>{{facts.modify|slice:"6:8"}}.{{facts.modify|slice:"4:6"}}.{{facts.modify|slice:":4"}} {{facts.modify|slice:"8:10"}}:{{facts.modify|slice:"10:12"}}:{{facts.modify|slice:"12:"}}</td>
                 <td>{{facts.size}} байт</td>
             </tr>
             {% else %}
                 <tr>
-                    <td><a href='{{name}}'>{{name}}</a></td>
+                    <td><a href='{{ request.path }}/{{name}}'>{{name}}</a></td>
                     <td>{{facts.type}}</td>
                     <td>{{facts.modify|slice:"6:8"}}.{{facts.modify|slice:"4:6"}}.{{facts.modify|slice:":4"}} {{facts.modify|slice:"8:10"}}:{{facts.modify|slice:"10:12"}}:{{facts.modify|slice:"12:"}}</td>
                     <td></td>
@@ -29,6 +30,5 @@
         {% endfor %}
         </table>
     </div>
-
-  <p><a href="{% url 'main' %}">Return to main</a></p>
+<p><a href="{% url 'main' %}">Return to main</a></p>
 {% endblock %}

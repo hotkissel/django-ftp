@@ -10,14 +10,18 @@
                 <th>Изменение</th>
             </tr>
         {% for line in log %}
-            {% if 'Successfully' in line %}
-                {% if '.jpg' in line %}
-                    <tr>
-                        <td>{{line|slice:"9:19"}}</td>
-                        <td>{{line|slice:"19:29"}}</td>
-                        <td>{{line|slice:"45:"}}</td>
-                    </tr>
-                {% endif %}
+            {% if 'file upload to' in line %}
+                <tr>
+                    <td>{{line|slice:"9:19"}}</td>
+                    <td>{{line|slice:"19:29"}}</td>
+                    <td>File uploaded to: {{line|slice:"95:"}}</td>
+                </tr>
+            {% elif 'file download from' in line %}
+                <tr>
+                    <td>{{line|slice:"9:19"}}</td>
+                    <td>{{line|slice:"19:29"}}</td>
+                    <td>File downloaded: {{line|slice:"99:"}}</td>
+                </tr>
             {% endif %}
         {% endfor %}
         </table>

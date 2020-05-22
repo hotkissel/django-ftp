@@ -30,30 +30,31 @@ def ftp_upload(localfile, remotefile, user, project, cur_date):
     ftp.close()
 
 
-def downloads(request):
+def downloads(request, folder='', subfolder='', subsubfolder=''):
     ftp = ftplib.FTP('localhost')
     ftp.login("pk", "testim")
     ftp.encoding = 'utf-8'
+    back_btn = request.META.get('HTTP_REFERER')
+    name_dir = str(request)
+    print(name_dir)
+    folder = name_dir[30:-2]
+    print(folder)
+    if '/' in folder:
+        folder_ls = folder.split('/')
+        count = len(folder_ls)
+        print(count)
+        print(folder_ls)
+        counter = 0
+        for i in range(count):
+            if '%20' in folder_ls[counter]:
+                folder_ls[counter] = folder_ls[counter].replace('%20', ' ')
+            print(folder_ls[counter])
+            ftp.cwd(folder_ls[counter])
+            counter += 1
+    else:
+        ftp.cwd(folder)
     filenames = ftp.mlsd()
-    return render(request, 'ftp/downloads.html', {'filenames': filenames})
-
-
-def EV(request):
-    ftp = ftplib.FTP('localhost')
-    ftp.login("pk", "testim")
-    ftp.encoding = 'utf-8'
-    ftp.cwd('EV')
-    filenames = ftp.mlsd()
-    return render(request, 'ftp/downloads.html', {'filenames': filenames})
-
-
-def new_dir(request):
-    ftp = ftplib.FTP('localhost')
-    ftp.login("pk", "testim")
-    ftp.encoding = 'utf-8'
-    ftp.cwd('new_dir')
-    filenames = ftp.mlsd()
-    return render(request, 'ftp/downloads.html', {'filenames': filenames})
+    return render(request, 'ftp/downloads.html', {'filenames': filenames, 'folder': folder, 'back_btn': back_btn})
 
 
 def news(request):
